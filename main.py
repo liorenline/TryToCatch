@@ -15,12 +15,11 @@ def start():
 
 SITES = {
     "1": {"name": "Instagram site", "path": "sites/instagram"},
+    "2": {"name": "Tik Tok site", "path": "sites/tiktok"},
 }
 
 HOST = "127.0.0.1"
 PORT = 8080
-
-
 def choose_site() -> Path:
     print("\nChoose site:\n")
     for k, v in SITES.items():
