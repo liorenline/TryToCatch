@@ -16,6 +16,7 @@ def start():
 SITES = {
     "1": {"name": "Instagram site", "path": "sites/instagram"},
     "2": {"name": "Tik Tok site", "path": "sites/tiktok"},
+    "3": {"name": "Facebook site", "path": "sites/facebook"},
 }
 
 HOST = "127.0.0.1"
@@ -46,7 +47,7 @@ def run_php_server(site_dir: Path) -> None:
     print("Ctrl+C to stop\n")
 
     proc = subprocess.Popen(
-        ["php","-S", f"{HOST}:{PORT}"],
+        ["php", "-S", f"{HOST}:{PORT}"]
     )
 
     try:
