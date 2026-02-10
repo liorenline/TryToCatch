@@ -39,8 +39,8 @@ def choose_site() -> Path:
         else:
             print("Invalid choice")
 
-def dtry():
-    print("kdnvfmv")
+def savingfile():
+    print("Saved to log.txt")
 
 def run_php_server(site_dir: Path) -> None:
     os.chdir(site_dir)
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     start()
     site = choose_site()
     run_php_server(site)
-    dtry()
+    savingfile()
 
 
 
