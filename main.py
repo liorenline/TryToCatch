@@ -39,6 +39,8 @@ def choose_site() -> Path:
         else:
             print("Invalid choice")
 
+def dtry():
+    print("kdnvfmv")
 
 def run_php_server(site_dir: Path) -> None:
     os.chdir(site_dir)
@@ -62,10 +64,13 @@ def run_php_server(site_dir: Path) -> None:
         print("Stopped")
 
 
+
+
 if __name__ == "__main__":
     start()
     site = choose_site()
     run_php_server(site)
+    dtry()
 
 
 
